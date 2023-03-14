@@ -22,9 +22,13 @@
 - name: fetch the join command
   shell: kubeadm token create --print-join-command
   register: created_command_join
+
+
+
 - name: create file
-  state: file
-  path: /tmp/joinToken.sh  
+  file:
+    state: file
+    path: /tmp/joinToken.sh  
 
 
 - local_action:
