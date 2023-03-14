@@ -1,0 +1,10 @@
+---
+dependencies: []
+
+galaxy_info:
+  role_name: Initialize Kubeadm
+  author: Mohamed Salah
+  description: Initialize Kubeadm. Intializing K8S Cluster and joining nodes
+  galaxy_tags:
+    - K8S
+    - Kubeadm
