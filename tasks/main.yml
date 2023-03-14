@@ -1,6 +1,6 @@
 - name: Initialize Kubeadm
   shell: |
-    kubeadm init --pod-network-cidr= "{{ pod_network_cidr }}" --apiserver-advertise-address= "{{ master_server_ip }}"
+    sudo kubeadm init --pod-network-cidr= "{{ pod_network_cidr }}" --apiserver-advertise-address= "{{ master_server_ip }}"
 
     exit 0
   register: k8S_init_cluster
