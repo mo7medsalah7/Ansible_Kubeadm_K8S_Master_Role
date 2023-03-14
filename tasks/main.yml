@@ -1,0 +1,16 @@
+- name: Initialize Kubeadm
+  shell: |
+    kubeadm init --pod-network-cidr= "{{ pod_network_cidr }}" --apiserver-advertise-address= "{{ master_server_ip }}"
+
+    exit 0
+  register: k8S_init_cluster
+
+# Documentation:-  To start using your cluster, you need to run the following as a regular user:
+
+- name: Create Kube Directory for Configuration
+  include_tasks: kube-config-dir.yml 
+  run_once: yes
+
+- name: Joining Nodes
+  include_tasks: joining-nodes.yml
+  run_once: yes
