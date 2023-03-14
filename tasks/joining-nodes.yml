@@ -1,8 +1,42 @@
-- name: Create Token to join other nodes
-  shell: kubeadm token create --print-join-command
+#- name: Create Token to join other nodes
+# shell: kubeadm token create --print-join-command
   # save the outputtt in register
-  register: created_token
+  # register: created_token
 
-- name: copy the token
-  content: "{{ created_token.stdout  }}"
-  dest: /tmp/join_token.sh
+  #- name: shell command
+  #shell: kubeadm token create --print-join-command
+  #register: myshell_output
+  #- name: copy the output to a local file
+  #copy:
+  # content: "{{ myshell_output.stdout }}"
+  # dest: "/tmp/joinToken.sh"
+  #delegate_to: localhost
+
+
+    #- name: Copy Join command to worker
+    #ansible.posix.synchronize:
+    #src: "{{ created_token.stdout }}"
+    #dest: /tmp/join_token.sh
+    #mode: push
+    #delegate_to: workers
+- name: fetch the join command
+  shell: kubeadm token create --print-join-command
+  register: created_command_join
+- name: create file
+  state: file
+  path: /tmp/joinToken.sh  
+
+
+- local_action:
+    module: copy
+    content: "{{ created_command_join.stdout }}"
+    dest: /tmp/joinToken.sh
+  delegate_to: localhost
+
+- name: Copy the file from using Method Pull
+  synchronize:
+    src: /tmp/joinToken.sh
+    dest: /tmp/joinToken.sh
+    mode: pull
+  delegate_to: "{{ groups['workers'][0] }}"
+  register: syncfile
