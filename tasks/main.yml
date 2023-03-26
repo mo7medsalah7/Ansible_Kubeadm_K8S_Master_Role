@@ -1,6 +1,6 @@
 - name: Initialize Kubeadm
   shell: |
-    sudo kubeadm init --apiserver-advertise-address="{{ master_server_ip }}" --pod-network-cidr="{{ pod_network_cidr }}" --ignore-preflight-errors=Mem --ignore-preflight-errors=NumCPU --cri-socket /var/run/crio/crio.sock
+    sudo kubeadm init --apiserver-advertise-address="{{ master_server_ip }}" --pod-network-cidr="{{ pod_network_cidr }}" --ignore-preflight-errors=Mem --ignore-preflight-errors=NumCPU --cri-socket=unix:///var/run/crio/crio.sock
 
     exit 0
   register: k8S_init_cluster
